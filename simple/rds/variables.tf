@@ -32,12 +32,6 @@ variable "kms_key_arn" {
 variable "initial_database" {
   type = string
 }
-variable "master_username" {
-  type = string
-}
-variable "master_password" {
-  type = string
-}
 variable "tags" {
   type = map(any)
 }

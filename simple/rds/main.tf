@@ -1,3 +1,13 @@
+data "aws_secretsmanager_secret_version" "credentials" {
+  secret_id = "sliderule/${var.environment}/database"
+}
+
+locals {
+  database_credentials = jsondecode(
+    data.aws_secretsmanager_secret_version.credentials.secret_string
+  )
+}
+
 resource "aws_db_subnet_group" "default" {
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}"
   subnet_ids = var.private_subnets
@@ -46,8 +56,8 @@ resource "aws_db_instance" "new_public" {
   name                       = var.initial_database
   kms_key_id                 = var.kms_key_arn
   db_subnet_group_name       = var.use_only_private_subnets == true ? aws_db_subnet_group.default.name : aws_db_subnet_group.public[0].name
-  username                   = var.master_username
-  password                   = var.master_password
+  username                   = local.database_credentials.username
+  password                   = local.database_credentials.password
   parameter_group_name       = aws_db_parameter_group.ssl_param_group.id
   //  availability_zone        = var.availability_zone
   backup_retention_period  = 7
