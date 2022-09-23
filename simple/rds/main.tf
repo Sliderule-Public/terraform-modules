@@ -1,5 +1,9 @@
+data "aws_secretsmanager_secret" "credentials" {
+  name = "sliderule/${var.environment}/database"
+}
+
 data "aws_secretsmanager_secret_version" "credentials" {
-  secret_id = "sliderule/${var.environment}/database"
+  secret_id = data.aws_secretsmanager_secret.credentials.id
 }
 
 locals {
