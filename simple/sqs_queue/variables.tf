@@ -1,16 +1,12 @@
 variable "company_name" {
-    type = string
+  type = string
 }
 variable "environment" {
-    type = string
+  type = string
 }
 variable "name" {
-    type = string
+  type = string
 }
 variable "tags" {
-    type = object({
-        Environment       = string
-        Company           = string
-        Deployment_Method = string
-    })
+  type = map(any)
 }
