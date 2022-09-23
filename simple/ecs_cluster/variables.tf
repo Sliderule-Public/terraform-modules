@@ -12,9 +12,5 @@ variable "autoscaling_group_arn" {
   default = ""
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }

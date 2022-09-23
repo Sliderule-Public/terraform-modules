@@ -38,11 +38,7 @@ variable "destination_bucket_arn" {
   default = ""
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
 variable "upload_cors_rules_enabled" {
   type    = bool

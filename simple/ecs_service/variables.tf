@@ -62,11 +62,7 @@ variable "desired_count" {
   default = 1
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
 variable "host_listeners" {
   type = list(string)

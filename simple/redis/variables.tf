@@ -18,9 +18,5 @@ variable "subnet_ids" {
   type = list(string)
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }

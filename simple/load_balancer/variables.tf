@@ -24,9 +24,5 @@ variable "idle_timeout" {
   default = 60
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }

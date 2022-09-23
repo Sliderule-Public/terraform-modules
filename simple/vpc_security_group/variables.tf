@@ -45,9 +45,5 @@ variable "egress_rules" {
   default = []
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }

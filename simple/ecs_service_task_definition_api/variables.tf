@@ -62,11 +62,7 @@ variable "environmentFiles" {
   default = []
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
 variable "read_only" {
   type    = bool

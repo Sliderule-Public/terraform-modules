@@ -32,11 +32,7 @@ variable "user_data" {
   default = ""
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
 variable "associate_public_ip_address" {
   type    = bool

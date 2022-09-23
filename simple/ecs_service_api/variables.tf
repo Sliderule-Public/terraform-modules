@@ -65,11 +65,7 @@ variable "sns_arn" {
   description = "Set this value and `sns_arn` to enable cloudwatch alarms"
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
 variable "host_listeners" {
   type = list(string)

@@ -39,11 +39,7 @@ variable "master_password" {
   type = string
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
 variable "instance_type" {
   type    = string

@@ -15,9 +15,5 @@ variable "type" {
   default = "A"
 }
 variable "tags" {
-  type = object({
-    Environment       = string
-    Company           = string
-    Deployment_Method = string
-  })
+  type = map(any)
 }
