@@ -1,10 +1,5 @@
-data "aws_secretsmanager_secret" "credentials" {
-  name = "sliderule/${var.environment}/database"
-}
-
 data "aws_secretsmanager_secret_version" "credentials" {
-  depends_on = [data.aws_secretsmanager_secret.credentials]
-  secret_id = data.aws_secretsmanager_secret.credentials.id
+  secret_id = "sliderule/${var.environment}/database"
 }
 
 locals {
