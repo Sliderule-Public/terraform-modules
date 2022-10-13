@@ -54,8 +54,8 @@ resource "aws_elasticache_replication_group" "main" {
   engine                        = "redis"
   replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
   node_type                     = var.node_type
-  number_cache_clusters            = 2
-  engine_version                = "3.2.10"
+  number_cache_clusters         = 2
+  engine_version                = "6.2"
   security_group_ids            = var.security_group_ids
   subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
   parameter_group_name          = aws_elasticache_parameter_group.new.name
