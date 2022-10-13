@@ -5,7 +5,7 @@ resource "aws_elasticache_subnet_group" "subnet_group" {
 
 resource "aws_elasticache_parameter_group" "default" {
   name   = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
-  family = "redis3.2"
+  family = "redis5.0"
 
   parameter {
     name  = "maxmemory-policy"
@@ -15,7 +15,7 @@ resource "aws_elasticache_parameter_group" "default" {
 
 resource "aws_elasticache_parameter_group" "new" {
   name   = substr("${var.company_name}-${var.environment}-${var.name}-redis", 0, 64)
-  family = "redis3.2"
+  family = "redis5.0"
 
   parameter {
     name  = "maxmemory-policy"
