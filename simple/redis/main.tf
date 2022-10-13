@@ -36,7 +36,7 @@ resource "aws_elasticache_cluster" "cluster" {
   #  subnet_group_name    = aws_elasticache_subnet_group.subnet_group.name
 }
 resource "aws_elasticache_cluster" "cluster2" {
-  cluster_id           = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
+  cluster_id           = substr("${var.company_name}-${var.environment}-${var.name}2", 0, 64)
   replication_group_id = aws_elasticache_replication_group.main.id
   #  engine               = "redis"
   #  node_type            = var.node_type
