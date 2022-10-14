@@ -11,6 +11,10 @@ resource "aws_elasticache_parameter_group" "default" {
     name  = "maxmemory-policy"
     value = "allkeys-lru"
   }
+  parameter {
+    name  = "cluster-enabled"
+    value = "true"
+  }
 }
 
 resource "aws_elasticache_parameter_group" "new" {
@@ -71,7 +75,7 @@ resource "aws_elasticache_replication_group" "default" {
   port                          = 6379
   engine                        = "redis"
   engine_version                = "5.0.6"
-  parameter_group_name          = aws_elasticache_parameter_group.new.name
+  parameter_group_name          = aws_elasticache_parameter_group.default.name
   snapshot_retention_limit      = 5
   snapshot_window               = "00:00-05:00"
   subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
