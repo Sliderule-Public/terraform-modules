@@ -1,3 +1,3 @@
 output "endpoint" {
-  value = aws_elasticache_cluster.cluster.cache_nodes[0].address
+  value = aws_elasticache_replication_group.default.primary_endpoint_address
 }
