@@ -36,39 +36,39 @@ resource "aws_elasticache_parameter_group" "new" {
 #  replication_group_id = aws_elasticache_replication_group.main.id
 #}
 #
-#resource "aws_elasticache_replication_group" "main" {
-#  automatic_failover_enabled    = true
-#  multi_az_enabled              = true
-#  engine                        = "redis"
-#  replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}-rg", 0, 64)
-#  node_type                     = var.node_type
-#  number_cache_clusters         = 2
-#  engine_version                = "5.0.6"
-#  security_group_ids            = var.security_group_ids
-#  subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
-#  parameter_group_name          = aws_elasticache_parameter_group.new.name
-#  port                          = 6379
-#  replication_group_description = substr("${var.company_name}-${var.environment}-${var.name}-rg", 0, 64)
-#  at_rest_encryption_enabled    = true
-#}
-
-resource "aws_elasticache_replication_group" "default" {
-  replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
-  replication_group_description = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
-  node_type                     = var.node_type
-  port                          = 6379
-  engine                        = "redis"
-  engine_version                = "5.0.6"
-  parameter_group_name          = aws_elasticache_parameter_group.default.name
-  snapshot_retention_limit      = 5
-  snapshot_window               = "00:00-05:00"
-  subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
-  at_rest_encryption_enabled    = true
+resource "aws_elasticache_replication_group" "main" {
   automatic_failover_enabled    = true
+  multi_az_enabled              = true
+  engine                        = "redis"
+  replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}-rg", 0, 64)
+  node_type                     = var.node_type
+  number_cache_clusters         = 2
+  engine_version                = "5.0.6"
   security_group_ids            = var.security_group_ids
-
-  cluster_mode {
-    replicas_per_node_group = 1
-    num_node_groups         = 2
-  }
+  subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
+  parameter_group_name          = aws_elasticache_parameter_group.new.name
+  port                          = 6379
+  replication_group_description = substr("${var.company_name}-${var.environment}-${var.name}-rg", 0, 64)
+  at_rest_encryption_enabled    = true
 }
+
+#resource "aws_elasticache_replication_group" "default" {
+#  replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
+#  replication_group_description = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
+#  node_type                     = var.node_type
+#  port                          = 6379
+#  engine                        = "redis"
+#  engine_version                = "5.0.6"
+#  parameter_group_name          = aws_elasticache_parameter_group.default.name
+#  snapshot_retention_limit      = 5
+#  snapshot_window               = "00:00-05:00"
+#  subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
+#  at_rest_encryption_enabled    = true
+#  automatic_failover_enabled    = true
+#  security_group_ids            = var.security_group_ids
+#
+#  cluster_mode {
+#    replicas_per_node_group = 1
+#    num_node_groups         = 2
+#  }
+#}
