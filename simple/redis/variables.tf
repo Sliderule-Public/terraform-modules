@@ -12,7 +12,7 @@ variable "name" {
 }
 variable "node_type" {
   type    = string
-  default = "cache.m4.xlarge"
+  default = "cache.m4.large"
 }
 variable "subnet_ids" {
   type = list(string)
