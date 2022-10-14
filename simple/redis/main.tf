@@ -52,7 +52,7 @@ resource "aws_elasticache_replication_group" "main" {
   automatic_failover_enabled    = true
   multi_az_enabled              = true
   engine                        = "redis"
-  replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
+  replication_group_id          = substr("${var.company_name}-${var.environment}-${var.name}-rg", 0, 64)
   node_type                     = var.node_type
   number_cache_clusters         = 2
   engine_version                = "5.0.6"
@@ -60,6 +60,6 @@ resource "aws_elasticache_replication_group" "main" {
   subnet_group_name             = aws_elasticache_subnet_group.subnet_group.name
   parameter_group_name          = aws_elasticache_parameter_group.new.name
   port                          = 6379
-  replication_group_description = substr("${var.company_name}-${var.environment}-${var.name}", 0, 64)
+  replication_group_description = substr("${var.company_name}-${var.environment}-${var.name}-rg", 0, 64)
   at_rest_encryption_enabled    = true
 }
