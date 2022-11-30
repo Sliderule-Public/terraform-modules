@@ -20,9 +20,17 @@ variable "subnets" {
   type = list(string)
 }
 variable "idle_timeout" {
-  type = number
+  type    = number
   default = 60
 }
 variable "tags" {
   type = map(any)
+}
+variable "enable_access_logs" {
+  type    = bool
+  default = false
+}
+variable "access_log_bucket" {
+  type    = string
+  default = ""
 }

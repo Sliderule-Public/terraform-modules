@@ -2,12 +2,17 @@ resource "aws_lb" "load_balancer" {
   name               = substr("${var.load_balancer_name}-${var.company_name}-${var.environment}", 0, 32)
   internal           = false
   load_balancer_type = "application"
-  security_groups = [
+  security_groups    = [
     var.security_group_id
   ]
   idle_timeout = var.idle_timeout
   subnets      = var.subnets
   tags         = var.tags
+
+  access_logs {
+    bucket  = var.access_log_bucket
+    enabled = var.enable_access_logs
+  }
 }
 
 resource "aws_lb_listener" "http" {
