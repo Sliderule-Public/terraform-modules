@@ -146,6 +146,7 @@ resource "aws_nat_gateway" "gw" {
 
 */
 resource "aws_subnet" "public0" {
+  depends_on                      = [aws_vpc.main]
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 0)
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 0)
@@ -164,6 +165,7 @@ resource "aws_subnet" "public0" {
 }
 
 resource "aws_subnet" "public1" {
+  depends_on                      = [aws_vpc.main]
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 1)
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 1)
@@ -187,6 +189,7 @@ resource "aws_subnet" "public1" {
 
 */
 resource "aws_subnet" "private0" {
+  depends_on                      = [aws_vpc.main]
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 3)
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 3)
@@ -204,6 +207,7 @@ resource "aws_subnet" "private0" {
 }
 
 resource "aws_subnet" "private1" {
+  depends_on                      = [aws_vpc.main]
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 4)
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 4)
@@ -226,6 +230,7 @@ resource "aws_subnet" "private1" {
 
 */
 resource "aws_subnet" "private_app_0" {
+  depends_on                      = [aws_vpc.main]
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 5)
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 5)
@@ -243,6 +248,7 @@ resource "aws_subnet" "private_app_0" {
 }
 
 resource "aws_subnet" "private_app_1" {
+  depends_on                      = [aws_vpc.main]
   vpc_id                          = aws_vpc.main.id
   cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 6)
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 6)
