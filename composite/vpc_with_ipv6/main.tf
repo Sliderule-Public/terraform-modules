@@ -86,12 +86,12 @@ EOF
 
 */
 resource "aws_vpc" "main" {
-  cidr_block           = var.vpc_cidr_block
-  ipv6_cidr_block      = var.ipv6_cidr_block
-  instance_tenancy     = "default"
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-  tags                 = merge(
+  cidr_block                       = var.vpc_cidr_block
+  assign_generated_ipv6_cidr_block = true
+  instance_tenancy                 = "default"
+  enable_dns_hostnames             = true
+  enable_dns_support               = true
+  tags                             = merge(
     var.tags,
     {
       Name = "${var.company_name}-${var.environment}-${var.vpc_name}"
@@ -148,7 +148,7 @@ resource "aws_nat_gateway" "gw" {
 resource "aws_subnet" "public0" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.vpc_cidr_block, 4, 0)
-  ipv6_cidr_block         = cidrsubnet(var.vpc_cidr_block, 4, 0)
+  ipv6_cidr_block         = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 4, 0)
   availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
 
@@ -165,7 +165,7 @@ resource "aws_subnet" "public0" {
 resource "aws_subnet" "public1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.vpc_cidr_block, 4, 1)
-  ipv6_cidr_block         = cidrsubnet(var.vpc_cidr_block, 4, 1)
+  ipv6_cidr_block         = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 4, 1)
   availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = true
 
@@ -187,7 +187,7 @@ resource "aws_subnet" "public1" {
 resource "aws_subnet" "private0" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 4, 3)
-  ipv6_cidr_block   = cidrsubnet(var.vpc_cidr_block, 4, 3)
+  ipv6_cidr_block   = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 4, 3)
   availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = merge(
@@ -203,7 +203,7 @@ resource "aws_subnet" "private0" {
 resource "aws_subnet" "private1" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 4, 4)
-  ipv6_cidr_block   = cidrsubnet(var.vpc_cidr_block, 4, 4)
+  ipv6_cidr_block   = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 4, 4)
   availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = merge(
@@ -224,7 +224,7 @@ resource "aws_subnet" "private1" {
 resource "aws_subnet" "private_app_0" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = cidrsubnet(var.vpc_cidr_block, 4, 5)
-  ipv6_cidr_block   = cidrsubnet(var.vpc_cidr_block, 4, 5)
+  ipv6_cidr_block   = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 4, 5)
   availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = merge(
@@ -240,7 +240,7 @@ resource "aws_subnet" "private_app_0" {
 resource "aws_subnet" "private_app_1" {
   vpc_id          = aws_vpc.main.id
   cidr_block      = cidrsubnet(var.vpc_cidr_block, 4, 6)
-  ipv6_cidr_block = cidrsubnet(var.vpc_cidr_block, 4, 6)
+  ipv6_cidr_block = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 4, 6)
 
   availability_zone = data.aws_availability_zones.available.names[1]
 

@@ -1,10 +1,6 @@
 variable "vpc_cidr_block" {
   type = string
 }
-variable "ipv6_cidr_block" {
-  type    = string
-  default = ""
-}
 variable "environment" {
   type = string
 }
