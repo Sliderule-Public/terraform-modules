@@ -1,9 +1,10 @@
 resource "aws_launch_template" "template" {
-  name          = "${var.company_name}-${var.environment}-${var.template_name}"
-  image_id      = var.ami
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  user_data     = base64encode(var.user_data)
+  name               = "${var.company_name}-${var.environment}-${var.template_name}"
+  image_id           = var.ami
+  instance_type      = var.instance_type
+  key_name           = var.key_name
+  user_data          = base64encode(var.user_data)
+  ipv6_address_count = var.associate_ipv6_address == true ? 1 : 0
 
   block_device_mappings {
     device_name = "/dev/xvda"
