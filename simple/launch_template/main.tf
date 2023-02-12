@@ -1,10 +1,9 @@
 resource "aws_launch_template" "template" {
-  name               = "${var.company_name}-${var.environment}-${var.template_name}"
-  image_id           = var.ami
-  instance_type      = var.instance_type
-  key_name           = var.key_name
-  user_data          = base64encode(var.user_data)
-  ipv6_address_count = var.associate_ipv6_address == true ? 1 : 0
+  name          = "${var.company_name}-${var.environment}-${var.template_name}"
+  image_id      = var.ami
+  instance_type = var.instance_type
+  key_name      = var.key_name
+  user_data     = base64encode(var.user_data)
 
   block_device_mappings {
     device_name = "/dev/xvda"
@@ -22,6 +21,7 @@ resource "aws_launch_template" "template" {
   network_interfaces {
     associate_public_ip_address = var.associate_public_ip_address
     security_groups             = var.vpc_security_group_ids
+    ipv6_address_count          = var.associate_ipv6_address == true ? 1 : 0
   }
 
   iam_instance_profile {
