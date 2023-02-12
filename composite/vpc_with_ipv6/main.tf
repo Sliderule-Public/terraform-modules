@@ -282,9 +282,9 @@ resource "aws_route" "public" {
 }
 
 resource "aws_route" "public_ipv6" {
-  route_table_id         = aws_route_table.public-rt.id
-  destination_cidr_block = "::/0"
-  gateway_id             = aws_internet_gateway.ig.id
+  route_table_id              = aws_route_table.public-rt.id
+  destination_ipv6_cidr_block = "::/0"
+  gateway_id                  = aws_internet_gateway.ig.id
 }
 
 /*
