@@ -91,7 +91,7 @@ variable "private_nacl_ingress_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr        = "0.0.0.0/0"
-      rule_number = 10
+      rule_number = 37
     }
   ]
 }
