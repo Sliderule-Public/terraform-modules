@@ -52,7 +52,20 @@ variable "public_nacl_egress_rules" {
       protocol    = "-1"
       cidr        = "0.0.0.0/0"
       rule_number = 10
-    },
+    }
+  ]
+}
+
+variable "ipv6_nacl_rules" {
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr        = string
+    rule_number = number
+  }))
+
+  default = [
     {
       from_port   = 0
       to_port     = 0
@@ -78,13 +91,6 @@ variable "private_nacl_ingress_rules" {
       to_port     = 0
       protocol    = "-1"
       cidr        = "0.0.0.0/0"
-      rule_number = 10
-    },
-    {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr        = "::/0"
       rule_number = 10
     }
   ]
