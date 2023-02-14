@@ -22,6 +22,18 @@ variable "ingress_rules" {
   default = []
 }
 
+variable "ipv6_ingress_rules" {
+  type = list(object({
+    description = string
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_block  = string
+  }))
+
+  default = []
+}
+
 variable "sg_ingress_rules" {
   type = list(object({
     description     = string

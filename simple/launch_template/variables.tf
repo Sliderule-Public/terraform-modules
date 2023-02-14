@@ -38,3 +38,7 @@ variable "associate_public_ip_address" {
   type    = bool
   default = true
 }
+variable "associate_ipv6_address" {
+  type    = bool
+  default = false
+}

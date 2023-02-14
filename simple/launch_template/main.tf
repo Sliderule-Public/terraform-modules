@@ -21,6 +21,7 @@ resource "aws_launch_template" "template" {
   network_interfaces {
     associate_public_ip_address = var.associate_public_ip_address
     security_groups             = var.vpc_security_group_ids
+    ipv6_address_count          = var.associate_ipv6_address == true ? 1 : 0
   }
 
   iam_instance_profile {
