@@ -436,7 +436,7 @@ resource "aws_network_acl_rule" "public_variable_ipv6_egress_rules" {
   egress          = true
 }
 
-resource "aws_network_acl_rule" "private_variable_ipv6_egress_rules" {
+resource "aws_network_acl_rule" "public_variable_ipv6_ingress_rules" {
   count           = length(var.ipv6_nacl_rules)
   network_acl_id  = aws_network_acl.public.id
   rule_number     = var.ipv6_nacl_rules[count.index].rule_number
@@ -445,7 +445,7 @@ resource "aws_network_acl_rule" "private_variable_ipv6_egress_rules" {
   ipv6_cidr_block = var.ipv6_nacl_rules[count.index].cidr
   from_port       = var.ipv6_nacl_rules[count.index].from_port
   to_port         = var.ipv6_nacl_rules[count.index].to_port
-  egress          = true
+  egress          = false
 }
 
 /*
