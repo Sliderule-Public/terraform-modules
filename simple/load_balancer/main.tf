@@ -50,6 +50,6 @@ resource "aws_lb_listener" "https" {
   }
 
   tags = {
-    Name = "${var.load_balancer_name}-https"
+    Name = "${var.company_name}-${var.environment}-${var.load_balancer_name}-https"
   }
 }
