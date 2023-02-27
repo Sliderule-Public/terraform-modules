@@ -38,6 +38,7 @@ resource "aws_lb_listener" "https" {
   ssl_policy        = "ELBSecurityPolicy-FS-1-2-2019-08"
   certificate_arn   = var.cert_arn
 
+
   default_action {
     type = "fixed-response"
 
@@ -46,5 +47,9 @@ resource "aws_lb_listener" "https" {
       message_body = "Please request a valid DNS name."
       status_code  = "200"
     }
+  }
+
+  tags = {
+    Name = "${var.load_balancer_name}-https"
   }
 }
