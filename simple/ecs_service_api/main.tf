@@ -11,6 +11,7 @@ resource "aws_lb_target_group" "tg" {
   vpc_id               = var.vpc_id
   target_type          = var.target_type
   deregistration_delay = 10
+  slow_start           = var.slow_start_duration
   health_check {
     enabled             = var.enable_health_check
     matcher             = "200-304,401"
@@ -32,6 +33,7 @@ resource "aws_lb_target_group" "grpc" {
   vpc_id               = var.vpc_id
   target_type          = var.target_type
   deregistration_delay = 10
+  slow_start           = var.slow_start_duration
   health_check {
     enabled             = var.enable_health_check
     matcher             = "0-99"

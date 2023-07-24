@@ -86,3 +86,7 @@ variable "api_healthy_threshold" {
   type    = number
   default = 2
 }
+variable "slow_start_duration" {
+  type    = number
+  default = 0
+}
