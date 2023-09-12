@@ -11,13 +11,17 @@ resource "aws_cloudwatch_log_group" "loggroup_prometheus" {
 }
 
 locals {
-  additional_port_mappings = concat([{
-    containerPort: var.container_port,
-    hostPort: var.container_port
-  }], [{
-    containerPort: 9520,
-    hostPort: 9520
-  }])
+  additional_port_mappings = concat([
+    {
+      containerPort : var.container_port,
+      hostPort : var.container_port
+    }
+  ], [
+    {
+      containerPort : 9520,
+      hostPort : 9520
+    }
+  ])
 }
 
 
@@ -53,8 +57,8 @@ resource "aws_ecs_task_definition" "service" {
       "name": "prometheus",
       "image": "${var.account_id}.dkr.ecr.${var.region}.amazonaws.com/prometheus:${var.image_tag}",
       "cpu": 128,
-      "memory": 256,
-      "essential": true,
+      "memory": 512,
+      "essential": false,
       "environment": ${jsonencode(var.environmentOverrides)},
       "portMappings": [
         {
