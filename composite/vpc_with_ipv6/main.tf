@@ -374,7 +374,8 @@ resource "aws_route_table_association" "rta-public-1" {
 }
 
 resource "aws_route_table_association" "rta-public-2" {
-  subnet_id      = aws_subnet.public2.id
+  count          = var.has_three_azs ? 1 : 0
+  subnet_id      = aws_subnet.public2[0].id
   route_table_id = aws_route_table.public-rt.id
 }
 
@@ -416,7 +417,8 @@ resource "aws_route_table_association" "rta-private1" {
 }
 
 resource "aws_route_table_association" "rta-private4" {
-  subnet_id      = aws_subnet.private2.id
+  count          = var.has_three_azs ? 1 : 0
+  subnet_id      = aws_subnet.private2[0].id
   route_table_id = aws_route_table.private-rt.id
 }
 
@@ -431,7 +433,8 @@ resource "aws_route_table_association" "rta-private3" {
 }
 
 resource "aws_route_table_association" "rta-private5" {
-  subnet_id      = aws_subnet.private_app_2.id
+  count          = var.has_three_azs ? 1 : 0
+  subnet_id      = aws_subnet.private_app_2[0].id
   route_table_id = aws_route_table.private-rt.id
 }
 
