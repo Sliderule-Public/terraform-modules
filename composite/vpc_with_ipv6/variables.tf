@@ -19,7 +19,8 @@ variable "region" {
 # I hate this. This is a quick workaround to get the module to work with us-east-2 in our timeframe without redoing the subnets in each
 # of our existing environments. This should be removed once we have a chance to redo the subnets.
 variable "has_three_azs" {
-  type = string
+  type    = bool
+  default = false
 }
 variable "public_nacl_ingress_rules" {
   type = list(object({
