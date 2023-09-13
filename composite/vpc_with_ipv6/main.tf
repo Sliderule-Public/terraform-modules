@@ -415,7 +415,7 @@ resource "aws_route_table_association" "rta-private1" {
   route_table_id = aws_route_table.private-rt.id
 }
 
-resource "aws_route_table_association" "rta-private2" {
+resource "aws_route_table_association" "rta-private4" {
   subnet_id      = aws_subnet.private2.id
   route_table_id = aws_route_table.private-rt.id
 }
@@ -430,7 +430,7 @@ resource "aws_route_table_association" "rta-private3" {
   route_table_id = aws_route_table.private-rt.id
 }
 
-resource "aws_route_table_association" "rta-private4" {
+resource "aws_route_table_association" "rta-private5" {
   subnet_id      = aws_subnet.private_app_2.id
   route_table_id = aws_route_table.private-rt.id
 }
