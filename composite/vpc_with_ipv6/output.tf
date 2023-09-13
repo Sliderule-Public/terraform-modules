@@ -1,13 +1,19 @@
 output "private_subnet_ids" {
-  value = [aws_subnet.private0.id, aws_subnet.private1.id]
+  value = var.has_three_azs ? [aws_subnet.private0.id, aws_subnet.private1.id, aws_subnet.private2.id] : [
+    aws_subnet.private0.id, aws_subnet.private1.id
+  ]
 }
 
 output "public_subnet_ids" {
-  value = [aws_subnet.public0.id, aws_subnet.public1.id]
+  value = var.has_three_azs ? [aws_subnet.public0.id, aws_subnet.public1.id, aws_subnet.public2.id] : [
+    aws_subnet.public0.id, aws_subnet.public1.id
+  ]
 }
 
 output "public_subnet_ids_for_load_balancers" {
-  value = [aws_subnet.public0.id, aws_subnet.public1.id]
+  value = var.has_three_azs ? [aws_subnet.public0.id, aws_subnet.public1.id, aws_subnet.public2.id] : [
+    aws_subnet.public0.id, aws_subnet.public1.id
+  ]
 }
 
 output "vpc_id" {

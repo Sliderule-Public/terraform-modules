@@ -183,6 +183,26 @@ resource "aws_subnet" "public1" {
   )
 }
 
+resource "aws_subnet" "public2" {
+  count                           = var.has_three_azs ? 1 : 0
+  depends_on                      = [aws_vpc.main]
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 7)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 7)
+  assign_ipv6_address_on_creation = true
+  availability_zone               = data.aws_availability_zones.available.names[2]
+  map_public_ip_on_launch         = true
+
+  tags = merge(
+    var.tags,
+    {
+      Name                     = "${var.company_name}-${var.environment}-${var.vpc_name}-public-2"
+      Tier                     = "Public"
+      "kubernetes.io/role/elb" = 1
+    }
+  )
+}
+
 /*
 
     Private subnets for non-application resources like databases
@@ -218,6 +238,25 @@ resource "aws_subnet" "private1" {
     var.tags,
     {
       Name                              = "${var.company_name}-${var.environment}-${var.vpc_name}-private-1"
+      Tier                              = "Private"
+      "kubernetes.io/role/internal-elb" = 1
+    }
+  )
+}
+
+resource "aws_subnet" "private2" {
+  count                           = var.has_three_azs ? 1 : 0
+  depends_on                      = [aws_vpc.main]
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 8)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 8)
+  assign_ipv6_address_on_creation = true
+  availability_zone               = data.aws_availability_zones.available.names[2]
+
+  tags = merge(
+    var.tags,
+    {
+      Name                              = "${var.company_name}-${var.environment}-${var.vpc_name}-private-2"
       Tier                              = "Private"
       "kubernetes.io/role/internal-elb" = 1
     }
@@ -260,6 +299,26 @@ resource "aws_subnet" "private_app_1" {
     var.tags,
     {
       Name                              = "${var.company_name}-${var.environment}-${var.vpc_name}-private-app-2"
+      Tier                              = "Private"
+      "kubernetes.io/role/internal-elb" = 1
+    }
+  )
+}
+
+resource "aws_subnet" "private_app_2" {
+  count                           = var.has_three_azs ? 1 : 0
+  depends_on                      = [aws_vpc.main]
+  vpc_id                          = aws_vpc.main.id
+  cidr_block                      = cidrsubnet(var.vpc_cidr_block, 4, 9)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, 9)
+  assign_ipv6_address_on_creation = true
+
+  availability_zone = data.aws_availability_zones.available.names[2]
+
+  tags = merge(
+    var.tags,
+    {
+      Name                              = "${var.company_name}-${var.environment}-${var.vpc_name}-private-app-3"
       Tier                              = "Private"
       "kubernetes.io/role/internal-elb" = 1
     }
@@ -314,6 +373,11 @@ resource "aws_route_table_association" "rta-public-1" {
   route_table_id = aws_route_table.public-rt.id
 }
 
+resource "aws_route_table_association" "rta-public-2" {
+  subnet_id      = aws_subnet.public2.id
+  route_table_id = aws_route_table.public-rt.id
+}
+
 /*
 
     Private route table
@@ -352,12 +416,22 @@ resource "aws_route_table_association" "rta-private1" {
 }
 
 resource "aws_route_table_association" "rta-private2" {
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.private-rt.id
+}
+
+resource "aws_route_table_association" "rta-private2" {
   subnet_id      = aws_subnet.private_app_0.id
   route_table_id = aws_route_table.private-rt.id
 }
 
 resource "aws_route_table_association" "rta-private3" {
   subnet_id      = aws_subnet.private_app_1.id
+  route_table_id = aws_route_table.private-rt.id
+}
+
+resource "aws_route_table_association" "rta-private4" {
+  subnet_id      = aws_subnet.private_app_2.id
   route_table_id = aws_route_table.private-rt.id
 }
 
