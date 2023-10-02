@@ -36,7 +36,8 @@ resource "aws_launch_template" "template" {
     resource_type = "instance"
 
     tags = {
-      Name = "${var.company_name}-${var.environment}-${var.template_name}"
+      Name        = "${var.company_name}-${var.environment}-${var.template_name}"
+      Environment = var.environment
     }
   }
   tags = var.tags
