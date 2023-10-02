@@ -1,6 +1,6 @@
 resource "aws_lb" "load_balancer" {
   name               = substr("${var.load_balancer_name}-${var.company_name}-${var.environment}", 0, 32)
-  internal           = false
+  internal           = var.internal
   load_balancer_type = "application"
   security_groups    = [
     var.security_group_id

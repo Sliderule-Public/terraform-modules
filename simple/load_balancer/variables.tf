@@ -34,3 +34,7 @@ variable "access_log_bucket" {
   type    = string
   default = ""
 }
+variable "internal" {
+  type    = bool
+  default = false
+}
