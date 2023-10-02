@@ -1,19 +1,18 @@
 variable "company_name" {
-    type = string
+  type = string
 }
 variable "environment" {
-    type = string
+  type = string
 }
 variable "profile_name" {
-    type = string
+  type = string
 }
 variable "role_name" {
-    type = string
+  type = string
 }
 variable "tags" {
-    type = object({
-        Environment       = string
-        Company           = string
-        Deployment_Method = string
-    })
+  type = object({
+    Company           = string
+    Deployment_Method = string
+  })
 }
