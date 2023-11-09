@@ -65,7 +65,11 @@ variable "deploy_read_replica" {
   description = "Whether to add a read replica"
 }
 variable "use_only_private_subnets" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "If true, will use only private subnets"
+}
+variable "rds_engine_version" {
+  type    = string
+  default = "11.13"
 }
