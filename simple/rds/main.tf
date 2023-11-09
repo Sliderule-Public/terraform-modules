@@ -74,7 +74,7 @@ locals {
   instance_name          = "${local.name_prefix}-${var.name_override}"
   parameter_group_to_use = {
     "11.13" = aws_db_parameter_group.ssl_param_group.id
-    "14.6"  = aws_db_parameter_group.postgres14.id
+    "14.7"  = aws_db_parameter_group.postgres14.id
     "15.3"  = aws_db_parameter_group.postgres15.id
   }
 }
