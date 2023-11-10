@@ -105,13 +105,14 @@ resource "aws_db_instance" "new_public" {
   enabled_cloudwatch_logs_exports = [
     "postgresql",
   ]
-  maintenance_window        = "sun:12:04-sun:12:34"
-  max_allocated_storage     = 200
-  monitoring_interval       = 0
-  skip_final_snapshot       = var.skip_final_snapshot
-  storage_encrypted         = true
-  final_snapshot_identifier = var.cluster_name
-  tags                      = var.tags
+  maintenance_window          = "sun:12:04-sun:12:34"
+  max_allocated_storage       = 200
+  monitoring_interval         = 0
+  skip_final_snapshot         = var.skip_final_snapshot
+  storage_encrypted           = true
+  final_snapshot_identifier   = var.cluster_name
+  allow_major_version_upgrade = true
+  tags                        = var.tags
   lifecycle {
     ignore_changes = [
       kms_key_id
