@@ -51,6 +51,12 @@ resource "aws_db_parameter_group" "postgres14" {
     name  = "log_min_duration_statement"
     value = 5000
   }
+
+  parameter {
+    apply_method = "pending-reboot"
+    name         = "shared_preload_libraries"
+    value        = "pg_stat_statements,pglogical,pg_cron"
+  }
 }
 
 resource "aws_db_parameter_group" "postgres15" {
@@ -66,6 +72,12 @@ resource "aws_db_parameter_group" "postgres15" {
   parameter {
     name  = "log_min_duration_statement"
     value = 5000
+  }
+
+  parameter {
+    apply_method = "pending-reboot"
+    name         = "shared_preload_libraries"
+    value        = "pg_stat_statements,pglogical,pg_cron"
   }
 }
 
