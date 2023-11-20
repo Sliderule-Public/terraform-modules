@@ -73,3 +73,8 @@ variable "rds_engine_version" {
   type    = string
   default = "11.13"
 }
+
+variable "database_max_allocated_storage" {
+  type    = number
+  default = 200
+}

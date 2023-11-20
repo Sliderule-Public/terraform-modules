@@ -118,7 +118,7 @@ resource "aws_db_instance" "new_public" {
     "postgresql",
   ]
   maintenance_window          = "sun:12:04-sun:12:34"
-  max_allocated_storage       = 200
+  max_allocated_storage       = var.database_max_allocated_storage
   monitoring_interval         = 0
   skip_final_snapshot         = var.skip_final_snapshot
   storage_encrypted           = true
