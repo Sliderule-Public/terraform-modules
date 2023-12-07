@@ -4,5 +4,6 @@ resource "aws_sqs_queue" "terraform_queue" {
   max_message_size          = 262144
   message_retention_seconds = 86400
   receive_wait_time_seconds = 10
-  tags = var.tags
+  sqs_managed_sse_enabled   = true
+  tags                      = var.tags
 }
