@@ -21,6 +21,20 @@ resource "aws_db_subnet_group" "public" {
   tags       = var.tags
 }
 
+resource "aws_db_subnet_group" "default_cross_region" {
+  count      = var.deploy_cross_region_read_replica ? 1 : 0
+  name       = "${var.company_name}-${var.environment}-${var.cluster_name}"
+  subnet_ids = var.cross_region_private_subnets
+  tags       = var.tags
+}
+
+resource "aws_db_subnet_group" "public_cross_region" {
+  count      = var.use_only_private_subnets && var.deploy_cross_region_read_replica ? 0 : 1
+  name       = "${var.company_name}-${var.environment}-${var.cluster_name}-public"
+  subnet_ids = var.cross_region_public_subnets
+  tags       = var.tags
+}
+
 resource "aws_db_parameter_group" "ssl_param_group" {
   name   = "${var.company_name}-${var.environment}-${var.cluster_name}"
   tags   = var.tags
@@ -232,6 +246,7 @@ resource "aws_db_instance" "cross_region_read_replica" {
   count                           = var.deploy_cross_region_read_replica == true ? 1 : 0
   identifier                      = "${local.instance_name}-cross-region-reader"
   allocated_storage               = 100
+  db_subnet_group_name            = var.use_only_private_subnets == true ? aws_db_subnet_group.default_cross_region[0].name : aws_db_subnet_group.public_cross_region[0].name
   multi_az                        = true
   publicly_accessible             = var.use_only_private_subnets == true ? false : true
   vpc_security_group_ids          = [var.security_group]

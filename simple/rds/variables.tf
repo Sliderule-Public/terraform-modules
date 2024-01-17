@@ -16,6 +16,14 @@ variable "public_subnets" {
 variable "private_subnets" {
   type = list(string)
 }
+variable "cross_region_public_subnets" {
+  type    = list(string)
+  default = []
+}
+variable "cross_region_private_subnets" {
+  type    = list(string)
+  default = []
+}
 variable "role_arn" {
   type = string
 }
