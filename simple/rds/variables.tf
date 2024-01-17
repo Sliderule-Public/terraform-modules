@@ -64,6 +64,11 @@ variable "deploy_read_replica" {
   default     = false
   description = "Whether to add a read replica"
 }
+variable "deploy_cross_region_read_replica" {
+  type        = bool
+  default     = false
+  description = "Whether to add a cross region read replica"
+}
 variable "use_only_private_subnets" {
   type        = bool
   default     = false

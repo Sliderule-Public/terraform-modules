@@ -81,6 +81,69 @@ resource "aws_db_parameter_group" "postgres15" {
   }
 }
 
+resource "aws_db_parameter_group" "cross_region_ssl_param_group" {
+  provider = "aws.cross_region_replication"
+  name     = "${var.company_name}-${var.environment}-${var.cluster_name}"
+  tags     = var.tags
+  family   = "postgres11"
+
+  parameter {
+    name  = "rds.force_ssl"
+    value = 1
+  }
+
+  parameter {
+    name  = "log_min_duration_statement"
+    value = 5000
+  }
+}
+
+resource "aws_db_parameter_group" "cross_region_postgres14" {
+  provider = "aws.cross_region_replication"
+  name     = "${var.company_name}-${var.environment}-${var.cluster_name}-14"
+  tags     = var.tags
+  family   = "postgres14"
+
+  parameter {
+    name  = "rds.force_ssl"
+    value = 1
+  }
+
+  parameter {
+    name  = "log_min_duration_statement"
+    value = 5000
+  }
+
+  parameter {
+    apply_method = "pending-reboot"
+    name         = "shared_preload_libraries"
+    value        = "pg_stat_statements,pglogical,pg_cron"
+  }
+}
+
+resource "aws_db_parameter_group" "cross_region_postgres15" {
+  provider = "aws.cross_region_replication"
+  name     = "${var.company_name}-${var.environment}-${var.cluster_name}-15"
+  tags     = var.tags
+  family   = "postgres15"
+
+  parameter {
+    name  = "rds.force_ssl"
+    value = 1
+  }
+
+  parameter {
+    name  = "log_min_duration_statement"
+    value = 5000
+  }
+
+  parameter {
+    apply_method = "pending-reboot"
+    name         = "shared_preload_libraries"
+    value        = "pg_stat_statements,pglogical,pg_cron"
+  }
+}
+
 locals {
   name_prefix            = "${var.company_name}-${var.environment}-${var.cluster_name}"
   instance_name          = "${local.name_prefix}-${var.name_override}"
@@ -88,6 +151,11 @@ locals {
     "11.13" = aws_db_parameter_group.ssl_param_group.id
     "14.7"  = aws_db_parameter_group.postgres14.id
     "15.3"  = aws_db_parameter_group.postgres15.id
+  }
+  cross_region_parameter_group_to_use = {
+    "11.13" = aws_db_parameter_group.cross_region_ssl_param_group.id
+    "14.7"  = aws_db_parameter_group.cross_region_postgres14.id
+    "15.3"  = aws_db_parameter_group.cross_region_postgres15.id
   }
 }
 
@@ -145,6 +213,34 @@ resource "aws_db_instance" "read_replica" {
   kms_key_id                      = var.kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.id
   parameter_group_name            = aws_db_parameter_group.ssl_param_group.id
+  delete_automated_backups        = false
+  copy_tags_to_snapshot           = true
+  snapshot_identifier             = var.snapshot_identifier != "" ? var.snapshot_identifier : null
+  enabled_cloudwatch_logs_exports = [
+    "postgresql",
+  ]
+  maintenance_window    = "sun:12:04-sun:12:34"
+  max_allocated_storage = 200
+  monitoring_interval   = 0
+  skip_final_snapshot   = true
+  storage_encrypted     = true
+  tags                  = var.tags
+}
+
+resource "aws_db_instance" "cross_region_read_replica" {
+  provider                        = aws.cross_region_replication
+  count                           = var.deploy_cross_region_read_replica == true ? 1 : 0
+  identifier                      = "${local.instance_name}-cross-region-reader"
+  allocated_storage               = 100
+  multi_az                        = true
+  publicly_accessible             = var.use_only_private_subnets == true ? false : true
+  vpc_security_group_ids          = [var.security_group]
+  deletion_protection             = true
+  instance_class                  = var.reader_instance_type
+  name                            = var.initial_database
+  kms_key_id                      = var.kms_key_arn
+  replicate_source_db             = aws_db_instance.new_public.arn
+  parameter_group_name            = lookup(local.parameter_group_to_use, var.rds_engine_version)
   delete_automated_backups        = false
   copy_tags_to_snapshot           = true
   snapshot_identifier             = var.snapshot_identifier != "" ? var.snapshot_identifier : null
