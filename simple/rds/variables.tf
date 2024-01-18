@@ -34,6 +34,10 @@ variable "snapshot_identifier" {
 variable "security_group" {
   type = string
 }
+variable "cross_region_security_group" {
+  type    = string
+  default = ""
+}
 variable "kms_key_arn" {
   type = string
 }
