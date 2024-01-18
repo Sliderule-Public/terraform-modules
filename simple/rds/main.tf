@@ -22,6 +22,7 @@ resource "aws_db_subnet_group" "public" {
 }
 
 resource "aws_db_subnet_group" "default_cross_region" {
+  provider   = "aws.cross_region_replication"
   count      = var.deploy_cross_region_read_replica ? 1 : 0
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}"
   subnet_ids = var.cross_region_private_subnets
@@ -29,6 +30,7 @@ resource "aws_db_subnet_group" "default_cross_region" {
 }
 
 resource "aws_db_subnet_group" "public_cross_region" {
+  provider   = "aws.cross_region_replication"
   count      = var.use_only_private_subnets && var.deploy_cross_region_read_replica ? 0 : 1
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}-public"
   subnet_ids = var.cross_region_public_subnets
