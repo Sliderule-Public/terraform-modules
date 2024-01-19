@@ -41,6 +41,10 @@ variable "cross_region_security_group" {
 variable "kms_key_arn" {
   type = string
 }
+variable "cross_region_kms_key_arn" {
+  type    = string
+  default = ""
+}
 variable "initial_database" {
   type = string
 }
