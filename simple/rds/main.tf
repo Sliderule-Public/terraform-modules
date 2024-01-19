@@ -251,7 +251,7 @@ resource "aws_db_instance" "cross_region_read_replica" {
   db_subnet_group_name            = var.use_only_private_subnets == true ? aws_db_subnet_group.default_cross_region[0].name : aws_db_subnet_group.public_cross_region[0].name
   multi_az                        = true
   publicly_accessible             = var.use_only_private_subnets == true ? false : true
-  vpc_security_group_ids          = [var.security_group]
+  vpc_security_group_ids          = [var.cross_region_security_group]
   deletion_protection             = true
   instance_class                  = var.reader_instance_type
   name                            = var.initial_database
