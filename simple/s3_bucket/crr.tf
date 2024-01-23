@@ -64,11 +64,12 @@ resource "aws_iam_role_policy_attachment" "replication" {
 }
 
 resource "aws_s3_bucket" "destination" {
-  bucket = "${var.company_name}-${var.environment}-${var.replication_region}-${var.bucket_name}-crr"
+  provider = aws.cross_region_replication
+  bucket   = "${var.company_name}-${var.environment}-${var.replication_region}-${var.bucket_name}-crr"
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
-  provider = aws.central
+  provider = aws.cross_region_replication
   # Must have bucket versioning enabled first??
   #  depends_on = [aws_s3_bucket_versioning.source]
 
