@@ -69,7 +69,6 @@ resource "aws_s3_bucket" "destination" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
-  provider = aws.cross_region_replication
   # Must have bucket versioning enabled first??
   #  depends_on = [aws_s3_bucket_versioning.source]
 
