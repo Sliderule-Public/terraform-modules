@@ -69,7 +69,8 @@ resource "aws_s3_bucket" "destination" {
 }
 
 resource "aws_s3_bucket_versioning" "destination" {
-  bucket = aws_s3_bucket.destination.id
+  provider = aws.cross_region_replication
+  bucket   = aws_s3_bucket.destination.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -77,7 +78,7 @@ resource "aws_s3_bucket_versioning" "destination" {
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
   # Must have bucket versioning enabled first??
-  #  depends_on = [aws_s3_bucket_versioning.source]
+  depends_on = [aws_s3_bucket_versioning.source, aws_s3_bucket_versioning.destination]
 
   role   = aws_iam_role.replication.arn
   bucket = aws_s3_bucket.bucket.id
