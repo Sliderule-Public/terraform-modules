@@ -68,6 +68,13 @@ resource "aws_s3_bucket" "destination" {
   bucket   = "${var.company_name}-${var.environment}-${var.replication_region}-${var.bucket_name}-crr"
 }
 
+resource "aws_s3_bucket_versioning" "destination" {
+  bucket = aws_s3_bucket.destination.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_replication_configuration" "replication" {
   # Must have bucket versioning enabled first??
   #  depends_on = [aws_s3_bucket_versioning.source]
