@@ -7,6 +7,9 @@ variable "environment" {
 variable "region" {
   type = string
 }
+variable "replication_region" {
+  type = string
+}
 variable "bucket_name" {
   type = string
 }
@@ -26,10 +29,6 @@ variable "block_public_access" {
   default = true
 }
 variable "versioning" {
-  type    = bool
-  default = false
-}
-variable "replication" {
   type    = bool
   default = false
 }
