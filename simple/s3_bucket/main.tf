@@ -1,9 +1,6 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.company_name}-${var.environment}-${var.region}-${var.bucket_name}"
   acl    = "private"
-  versioning {
-    enabled = var.versioning
-  }
   policy = var.policy
 
   server_side_encryption_configuration {
