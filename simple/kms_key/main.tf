@@ -6,7 +6,6 @@ resource "aws_kms_key" "key" {
 }
 
 resource "aws_kms_grant" "grant" {
-  depends_on        = [aws_kms_key.key]
   count             = length(var.usage_grantee_arns)
   name              = "${var.company_name}-${var.environment}-${var.key_name}"
   key_id            = aws_kms_key.key.key_id

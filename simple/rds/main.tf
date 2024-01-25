@@ -22,7 +22,7 @@ resource "aws_db_subnet_group" "public" {
 }
 
 resource "aws_db_subnet_group" "default_cross_region" {
-  provider   = "aws.cross_region_replication"
+  provider   = aws.cross_region_replication
   count      = var.deploy_cross_region_read_replica ? 1 : 0
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}"
   subnet_ids = var.cross_region_private_subnets
@@ -30,7 +30,7 @@ resource "aws_db_subnet_group" "default_cross_region" {
 }
 
 resource "aws_db_subnet_group" "public_cross_region" {
-  provider   = "aws.cross_region_replication"
+  provider   = aws.cross_region_replication
   count      = var.use_only_private_subnets && var.deploy_cross_region_read_replica ? 0 : 1
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}-public"
   subnet_ids = var.cross_region_public_subnets
@@ -98,7 +98,7 @@ resource "aws_db_parameter_group" "postgres15" {
 }
 
 resource "aws_db_parameter_group" "cross_region_ssl_param_group" {
-  provider = "aws.cross_region_replication"
+  provider = aws.cross_region_replication
   name     = "${var.company_name}-${var.environment}-${var.cluster_name}-cr"
   tags     = var.tags
   family   = "postgres11"
@@ -115,7 +115,7 @@ resource "aws_db_parameter_group" "cross_region_ssl_param_group" {
 }
 
 resource "aws_db_parameter_group" "cross_region_postgres14" {
-  provider = "aws.cross_region_replication"
+  provider = aws.cross_region_replication
   name     = "${var.company_name}-${var.environment}-${var.cluster_name}-14-cr"
   tags     = var.tags
   family   = "postgres14"
@@ -138,7 +138,7 @@ resource "aws_db_parameter_group" "cross_region_postgres14" {
 }
 
 resource "aws_db_parameter_group" "cross_region_postgres15" {
-  provider = "aws.cross_region_replication"
+  provider = aws.cross_region_replication
   name     = "${var.company_name}-${var.environment}-${var.cluster_name}-15-cr"
   tags     = var.tags
   family   = "postgres15"
