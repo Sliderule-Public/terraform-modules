@@ -254,7 +254,6 @@ resource "aws_db_instance" "cross_region_read_replica" {
   vpc_security_group_ids          = [var.cross_region_security_group]
   deletion_protection             = true
   instance_class                  = var.reader_instance_type
-  name                            = var.initial_database
   kms_key_id                      = var.cross_region_kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.arn
   parameter_group_name            = lookup(local.cross_region_parameter_group_to_use, var.rds_engine_version)
