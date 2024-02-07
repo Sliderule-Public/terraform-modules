@@ -222,7 +222,7 @@ resource "aws_db_instance" "read_replica" {
   allocated_storage               = 100
   multi_az                        = true
   publicly_accessible             = var.use_only_private_subnets == true ? false : true
-  vpc_security_group_ids          = [var.cross_region_security_group]
+  vpc_security_group_ids          = [var.security_group]
   deletion_protection             = true
   instance_class                  = var.reader_instance_type
   name                            = var.initial_database
