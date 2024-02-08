@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "replication" {
-  name               = "${var.company_name}-${var.environment}-${var.bucket_name}-crr"
+  name               = "${var.company_name}-${var.environment}-${var.region}-${var.bucket_name}-crr"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
