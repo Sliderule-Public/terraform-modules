@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:ListBucket",
     ]
 
-    resources = [aws_s3_bucket.bucket.arn]
+    resources = [aws_s3_bucket.bucket_main.arn]
   }
 
   statement {
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:GetObjectVersionTagging",
     ]
 
-    resources = ["${aws_s3_bucket.bucket.arn}/*"]
+    resources = ["${aws_s3_bucket.bucket_main.arn}/*"]
   }
 
   statement {
@@ -81,7 +81,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
   depends_on = [aws_s3_bucket_versioning.source, aws_s3_bucket_versioning.destination]
 
   role   = aws_iam_role.replication.arn
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.bucket_main.id
 
   rule {
     id = "main"
