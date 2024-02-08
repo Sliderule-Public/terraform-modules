@@ -43,3 +43,9 @@ variable "upload_cors_rules_enabled" {
   type    = bool
   default = false
 }
+
+variable "deploy_cross_region_read_replica" {
+  type        = bool
+  default     = false
+  description = "Whether to add a cross region read replica"
+}
