@@ -15,7 +15,7 @@ resource "aws_db_subnet_group" "default" {
 }
 
 resource "aws_db_subnet_group" "public" {
-  count      = var.use_only_private_subnets == true ? 0 : 1
+  count      = var.use_only_private_subnets ? 0 : 1
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}-public"
   subnet_ids = var.public_subnets
   tags       = var.tags
@@ -23,7 +23,7 @@ resource "aws_db_subnet_group" "public" {
 
 resource "aws_db_subnet_group" "default_cross_region" {
   provider   = aws.cross_region_replication
-  count      = var.deploy_cross_region_read_replica ? 1 : 0
+  count      = var.deploy_cross_region_read_replica && var.use_only_private_subnets ? 1 : 0
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}"
   subnet_ids = var.cross_region_private_subnets
   tags       = var.tags
@@ -31,7 +31,7 @@ resource "aws_db_subnet_group" "default_cross_region" {
 
 resource "aws_db_subnet_group" "public_cross_region" {
   provider   = aws.cross_region_replication
-  count      = var.use_only_private_subnets && var.deploy_cross_region_read_replica ? 0 : 1
+  count      = var.deploy_cross_region_read_replica && var.use_only_private_subnets == false ? 1 : 0
   name       = "${var.company_name}-${var.environment}-${var.cluster_name}-public"
   subnet_ids = var.cross_region_public_subnets
   tags       = var.tags
@@ -183,12 +183,12 @@ resource "aws_db_instance" "new_public" {
   auto_minor_version_upgrade      = false
   deletion_protection             = true
   multi_az                        = true
-  publicly_accessible             = var.use_only_private_subnets == true ? false : true
+  publicly_accessible             = var.use_only_private_subnets ? false : true
   vpc_security_group_ids          = [var.security_group]
   instance_class                  = var.instance_type
   name                            = var.initial_database
   kms_key_id                      = var.kms_key_arn
-  db_subnet_group_name            = var.use_only_private_subnets == true ? aws_db_subnet_group.default.name : aws_db_subnet_group.public[0].name
+  db_subnet_group_name            = var.use_only_private_subnets ? aws_db_subnet_group.default.name : aws_db_subnet_group.public[0].name
   username                        = local.database_credentials.username
   password                        = local.database_credentials.password
   parameter_group_name            = lookup(local.parameter_group_to_use, var.rds_engine_version)
@@ -221,7 +221,7 @@ resource "aws_db_instance" "read_replica" {
   identifier                      = "${local.instance_name}-reader"
   allocated_storage               = 100
   multi_az                        = true
-  publicly_accessible             = var.use_only_private_subnets == true ? false : true
+  publicly_accessible             = var.use_only_private_subnets ? false : true
   vpc_security_group_ids          = [var.security_group]
   deletion_protection             = true
   instance_class                  = var.reader_instance_type
@@ -248,9 +248,9 @@ resource "aws_db_instance" "cross_region_read_replica" {
   count                           = var.deploy_cross_region_read_replica == true ? 1 : 0
   identifier                      = "${local.instance_name}-cross-region-reader"
   allocated_storage               = 100
-  db_subnet_group_name            = var.use_only_private_subnets == true ? aws_db_subnet_group.default_cross_region[0].name : aws_db_subnet_group.public_cross_region[0].name
+  db_subnet_group_name            = var.use_only_private_subnets ? aws_db_subnet_group.default_cross_region[0].name : aws_db_subnet_group.public_cross_region[0].name
   multi_az                        = true
-  publicly_accessible             = var.use_only_private_subnets == true ? false : true
+  publicly_accessible             = var.use_only_private_subnets ? false : true
   vpc_security_group_ids          = [var.cross_region_security_group]
   deletion_protection             = true
   instance_class                  = var.reader_instance_type
