@@ -43,7 +43,7 @@ resource "aws_db_parameter_group" "ssl_param_group" {
   family = "postgres11"
 
   parameter {
-    apply_method = "immediate"
+    apply_method = "pending-reboot"
     name         = "rds.force_ssl"
     value        = 1
   }
@@ -60,7 +60,7 @@ resource "aws_db_parameter_group" "postgres14" {
   family = "postgres14"
 
   parameter {
-    apply_method = "immediate"
+    apply_method = "pending-reboot"
     name         = "rds.force_ssl"
     value        = 1
   }
@@ -83,7 +83,7 @@ resource "aws_db_parameter_group" "postgres15" {
   family = "postgres15"
 
   parameter {
-    apply_method = "immediate"
+    apply_method = "pending-reboot"
     name         = "rds.force_ssl"
     value        = 1
   }
@@ -107,7 +107,7 @@ resource "aws_db_parameter_group" "cross_region_ssl_param_group" {
   family   = "postgres11"
 
   parameter {
-    apply_method = "immediate"
+    apply_method = "pending-reboot"
     name         = "rds.force_ssl"
     value        = 1
   }
@@ -125,7 +125,7 @@ resource "aws_db_parameter_group" "cross_region_postgres14" {
   family   = "postgres14"
 
   parameter {
-    apply_method = "immediate"
+    apply_method = "pending-reboot"
     name         = "rds.force_ssl"
     value        = 1
   }
@@ -149,7 +149,7 @@ resource "aws_db_parameter_group" "cross_region_postgres15" {
   family   = "postgres15"
 
   parameter {
-    apply_method = "immediate"
+    apply_method = "pending-reboot"
     name         = "rds.force_ssl"
     value        = 1
   }
@@ -217,7 +217,8 @@ resource "aws_db_instance" "new_public" {
   tags                        = var.tags
   lifecycle {
     ignore_changes = [
-      kms_key_id
+      kms_key_id,
+      latest_restorable_time
     ]
   }
 }
