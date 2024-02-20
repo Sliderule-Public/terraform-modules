@@ -1,39 +1,3 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.company_name}-${var.environment}-${var.bucket_name}"
-  acl    = "private"
-  policy = var.policy
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = var.key_arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
-
-  dynamic cors_rule {
-    for_each = var.upload_cors_rules_enabled == true ? [1] : []
-    content {
-      allowed_headers = [
-        "*",
-      ]
-      allowed_methods = [
-        "GET",
-        "PUT",
-        "POST",
-      ]
-      allowed_origins = [
-        "*",
-      ]
-      expose_headers  = []
-      max_age_seconds = 0
-    }
-  }
-
-  tags = var.tags
-}
-
 resource "aws_s3_bucket" "bucket_main" {
   bucket = "${var.company_name}-${var.environment}-${var.region}-${var.bucket_name}"
   acl    = "private"
