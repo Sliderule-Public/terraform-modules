@@ -186,7 +186,7 @@ resource "aws_db_instance" "new_public" {
   allocated_storage               = 100
   engine                          = "postgres"
   engine_version                  = var.rds_engine_version
-  auto_minor_version_upgrade      = false
+  auto_minor_version_upgrade      = var.rds_auto_minor_version_upgrade
   deletion_protection             = true
   multi_az                        = true
   publicly_accessible             = var.use_only_private_subnets ? false : true

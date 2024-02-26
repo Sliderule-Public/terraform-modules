@@ -99,3 +99,7 @@ variable "database_max_allocated_storage" {
   type    = number
   default = 200
 }
+variable "rds_auto_minor_version_upgrade" {
+  type    = bool
+  default = false
+}
