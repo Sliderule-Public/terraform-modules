@@ -7,6 +7,9 @@ variable "environment" {
 variable "policy" {
   type = string
 }
+variable "region" {
+  type = string
+}
 variable "service" {
   type = string
 }
@@ -15,7 +18,7 @@ variable "role_name" {
 }
 variable "assume_role_conditions" {
   default = []
-  type = list(object({
+  type    = list(object({
     test     = string
     variable = string
     values   = list(string)
@@ -23,5 +26,5 @@ variable "assume_role_conditions" {
 }
 variable "tags" {
   default = {}
-  type = map(any)
+  type    = map(any)
 }

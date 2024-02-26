@@ -1,5 +1,5 @@
 resource "aws_iam_role" "role" {
-  name               = substr("${var.company_name}-${var.environment}-${var.role_name}", 0, 64)
+  name               = substr("${var.company_name}-${var.environment}-${var.region}-${var.role_name}", 0, 64)
   tags               = var.tags
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = [
         var.service
       ]
