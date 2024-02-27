@@ -170,14 +170,14 @@ locals {
   name_prefix            = "${var.company_name}-${var.environment}-${var.cluster_name}"
   instance_name          = "${local.name_prefix}-${var.name_override}"
   parameter_group_to_use = {
-    "11.13" = aws_db_parameter_group.ssl_param_group.id
-    "14.7"  = aws_db_parameter_group.postgres14.id
-    "15.3"  = aws_db_parameter_group.postgres15.id
+    "11" = aws_db_parameter_group.ssl_param_group.id
+    "14" = aws_db_parameter_group.postgres14.id
+    "15" = aws_db_parameter_group.postgres15.id
   }
   cross_region_parameter_group_to_use = {
-    "11.13" = aws_db_parameter_group.cross_region_ssl_param_group.id
-    "14.7"  = aws_db_parameter_group.cross_region_postgres14.id
-    "15.3"  = aws_db_parameter_group.cross_region_postgres15.id
+    "11" = aws_db_parameter_group.cross_region_ssl_param_group.id
+    "14" = aws_db_parameter_group.cross_region_postgres14.id
+    "15" = aws_db_parameter_group.cross_region_postgres15.id
   }
 }
 
@@ -197,7 +197,7 @@ resource "aws_db_instance" "new_public" {
   db_subnet_group_name            = var.use_only_private_subnets ? aws_db_subnet_group.default.name : aws_db_subnet_group.public[0].name
   username                        = local.database_credentials.username
   password                        = local.database_credentials.password
-  parameter_group_name            = lookup(local.parameter_group_to_use, var.rds_engine_version)
+  parameter_group_name            = lookup(local.parameter_group_to_use, var.parameter_group_major_version)
   //  availability_zone        = var.availability_zone
   backup_retention_period         = 7
   backup_window                   = "07:31-11:31"
@@ -263,7 +263,7 @@ resource "aws_db_instance" "cross_region_read_replica" {
   instance_class                  = var.reader_instance_type
   kms_key_id                      = var.cross_region_kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.arn
-  parameter_group_name            = lookup(local.cross_region_parameter_group_to_use, var.rds_engine_version)
+  parameter_group_name            = lookup(local.cross_region_parameter_group_to_use, var.parameter_group_major_version)
   delete_automated_backups        = false
   copy_tags_to_snapshot           = true
   snapshot_identifier             = var.snapshot_identifier != "" ? var.snapshot_identifier : null
