@@ -7,6 +7,10 @@ variable "company_name" {
 variable "security_group_name" {
   type = string
 }
+variable "region" {
+  type    = string
+  default = ""
+}
 variable "vpc_id" {
   type = string
 }
@@ -58,4 +62,9 @@ variable "egress_rules" {
 }
 variable "tags" {
   type = map(any)
+}
+
+variable "use_regional_naming_convention" {
+  type    = bool
+  default = true
 }

@@ -1,5 +1,9 @@
+locals {
+  name = var.use_regional_naming_convention ? "${var.company_name}-${var.environment}-${var.region}-${var.security_group_name}" : "${var.company_name}-${var.environment}-${var.security_group_name}"
+}
+
 resource "aws_security_group" "group" {
-  name   = "${var.company_name}-${var.environment}-${var.security_group_name}"
+  name   = local.name
   vpc_id = var.vpc_id
   tags   = var.tags
 
