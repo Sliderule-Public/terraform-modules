@@ -4,7 +4,6 @@ output "address" {
 output "port" {
   value = aws_db_instance.new_public.port
 }
-output "rds" {
-  value     = aws_db_instance.new_public
-  sensitive = true
+output "rds_deletion_protection" {
+  value = aws_db_instance.new_public.deletion_protection
 }
