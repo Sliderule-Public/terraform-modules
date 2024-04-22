@@ -9,3 +9,7 @@ output "name" {
 output "url" {
   value = aws_sqs_queue.terraform_queue.url
 }
+
+output "queue" {
+  value = aws_sqs_queue.terraform_queue
+}

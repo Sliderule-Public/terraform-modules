@@ -10,3 +10,6 @@ output "lb_hosted_zone" {
 output "lb_arn" {
   value = aws_lb.load_balancer.arn
 }
+output "lb" {
+  value = aws_lb.load_balancer
+}

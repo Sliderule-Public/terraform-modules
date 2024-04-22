@@ -33,3 +33,7 @@ output "private_app_subnet_id_1" {
 output "az_1" {
   value = data.aws_availability_zones.available.names[0]
 }
+
+output "vpc" {
+  value = aws_vpc.main
+}

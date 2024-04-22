@@ -9,3 +9,7 @@ output "key_id" {
 output "key_alias" {
   value = aws_kms_alias.alias.name
 }
+
+output "key" {
+  value = aws_kms_alias.alias
+}

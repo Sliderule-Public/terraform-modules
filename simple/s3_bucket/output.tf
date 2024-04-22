@@ -4,3 +4,7 @@ output "crr_bucket_arn" {
 output "crr_bucket" {
   value = aws_s3_bucket.bucket_main.bucket
 }
+
+output "bucket" {
+  value = aws_s3_bucket.bucket_main
+}
