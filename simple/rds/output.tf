@@ -5,5 +5,6 @@ output "port" {
   value = aws_db_instance.new_public.port
 }
 output "rds" {
-  value = aws_db_instance.new_public
+  value     = aws_db_instance.new_public
+  sensitive = true
 }
