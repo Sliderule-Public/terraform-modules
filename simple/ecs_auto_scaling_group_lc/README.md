@@ -1,3 +1,6 @@
+# ecs_auto_scaling_group_lc
+
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
