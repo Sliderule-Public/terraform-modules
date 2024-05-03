@@ -8,3 +8,7 @@ output "crr_bucket" {
 output "bucket" {
   value = aws_s3_bucket.bucket_main
 }
+
+output "replication_role_arn" {
+  value = aws_iam_role.replication.arn
+}
