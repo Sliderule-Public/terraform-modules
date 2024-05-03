@@ -10,5 +10,5 @@ output "bucket" {
 }
 
 output "replication_role_arn" {
-  value = aws_iam_role.replication.arn
+  value = var.deploy_cross_region_read_replica ? aws_iam_role.replication[0].arn : null
 }
