@@ -99,6 +99,15 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
     destination {
       bucket        = aws_s3_bucket.destination[0].arn
       storage_class = "STANDARD"
+      encryption_configuration {
+        replica_kms_key_id = "aws/s3"
+      }
+    }
+
+    source_selection_criteria {
+      sse_kms_encrypted_objects {
+        status = "Enabled"
+      }
     }
   }
 }
