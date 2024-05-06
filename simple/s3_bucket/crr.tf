@@ -84,7 +84,8 @@ resource "aws_s3_bucket_versioning" "destination" {
 }
 
 data "aws_kms_key" "s3_by_alias" {
-  key_id = "alias/aws/s3"
+  provider = aws.cross_region_replication
+  key_id   = "alias/aws/s3"
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
