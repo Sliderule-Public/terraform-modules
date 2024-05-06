@@ -83,6 +83,10 @@ resource "aws_s3_bucket_versioning" "destination" {
   }
 }
 
+data "aws_kms_key" "s3_by_alias" {
+  key_id = "alias/s3"
+}
+
 resource "aws_s3_bucket_replication_configuration" "replication" {
   count      = var.deploy_cross_region_read_replica == true ? 1 : 0
   # Must have bucket versioning enabled first??
@@ -100,7 +104,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
       bucket        = aws_s3_bucket.destination[0].arn
       storage_class = "STANDARD"
       encryption_configuration {
-        replica_kms_key_id = "aws/s3"
+        replica_kms_key_id = data.aws_kms_key.s3_by_alias.arn
       }
     }
 
