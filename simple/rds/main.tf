@@ -192,7 +192,7 @@ resource "aws_db_instance" "new_public" {
   publicly_accessible             = var.use_only_private_subnets ? false : true
   vpc_security_group_ids          = [var.security_group]
   instance_class                  = var.instance_type
-  name                            = var.initial_database
+  db_name                         = var.initial_database
   kms_key_id                      = var.kms_key_arn
   db_subnet_group_name            = var.use_only_private_subnets ? aws_db_subnet_group.default.name : aws_db_subnet_group.public[0].name
   username                        = local.database_credentials.username
@@ -232,7 +232,7 @@ resource "aws_db_instance" "read_replica" {
   vpc_security_group_ids          = [var.security_group]
   deletion_protection             = true
   instance_class                  = var.reader_instance_type
-  name                            = var.initial_database
+  db_name                         = var.initial_database
   kms_key_id                      = var.kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.id
   parameter_group_name            = aws_db_parameter_group.ssl_param_group.id
