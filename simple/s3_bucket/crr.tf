@@ -1,5 +1,5 @@
 data "aws_iam_policy_document" "assume_role" {
-  count = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count = var.deploy_cross_region_bucket == true ? 1 : 0
   statement {
     effect = "Allow"
 
@@ -13,13 +13,13 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "replication" {
-  count              = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count              = var.deploy_cross_region_bucket == true ? 1 : 0
   name               = "${var.company_name}-${var.environment}-${var.region}-${var.bucket_name}-crr"
   assume_role_policy = data.aws_iam_policy_document.assume_role[0].json
 }
 
 data "aws_iam_policy_document" "replication" {
-  count = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count = var.deploy_cross_region_bucket == true ? 1 : 0
   statement {
     effect = "Allow"
 
@@ -57,25 +57,25 @@ data "aws_iam_policy_document" "replication" {
 }
 
 resource "aws_iam_policy" "replication" {
-  count  = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count  = var.deploy_cross_region_bucket == true ? 1 : 0
   name   = "${var.company_name}-${var.environment}-${var.bucket_name}-crr"
   policy = data.aws_iam_policy_document.replication[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "replication" {
-  count      = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count      = var.deploy_cross_region_bucket == true ? 1 : 0
   role       = aws_iam_role.replication[0].name
   policy_arn = aws_iam_policy.replication[0].arn
 }
 
 resource "aws_s3_bucket" "destination" {
-  count    = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count    = var.deploy_cross_region_bucket == true ? 1 : 0
   provider = aws.cross_region_replication
   bucket   = "${var.company_name}-${var.environment}-${var.replication_region}-${var.bucket_name}-crr"
 }
 
 resource "aws_s3_bucket_versioning" "destination" {
-  count    = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count    = var.deploy_cross_region_bucket == true ? 1 : 0
   provider = aws.cross_region_replication
   bucket   = aws_s3_bucket.destination[0].id
   versioning_configuration {
@@ -89,7 +89,7 @@ data "aws_kms_key" "s3_by_alias" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
-  count      = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count      = var.deploy_cross_region_bucket == true ? 1 : 0
   # Must have bucket versioning enabled first??
   depends_on = [aws_s3_bucket_versioning.source, aws_s3_bucket_versioning.destination]
 

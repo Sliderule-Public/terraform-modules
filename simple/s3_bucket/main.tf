@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "bucket_main" {
 }
 
 resource "aws_s3_bucket_versioning" "source" {
-  count  = var.deploy_cross_region_read_replica == true ? 1 : 0
+  count  = var.deploy_cross_region_bucket == true ? 1 : 0
   bucket = aws_s3_bucket.bucket_main.id
   versioning_configuration {
     status = "Enabled"
