@@ -235,7 +235,7 @@ resource "aws_db_instance" "read_replica" {
   db_name                         = var.initial_database
   kms_key_id                      = var.kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.id
-  parameter_group_name            = aws_db_parameter_group.ssl_param_group.id
+  #  parameter_group_name            = aws_db_parameter_group.ssl_param_group.id
   delete_automated_backups        = false
   copy_tags_to_snapshot           = true
   snapshot_identifier             = var.snapshot_identifier != "" ? var.snapshot_identifier : null
@@ -264,7 +264,7 @@ resource "aws_db_instance" "cross_region_read_replica" {
   kms_key_id                      = var.cross_region_kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.arn
   # TODO this caused A parameter group can't be specified during Read Replica creation for the following DB engine: postgres
-  parameter_group_name            = lookup(local.cross_region_parameter_group_to_use, var.parameter_group_major_version)
+  #  parameter_group_name            = lookup(local.cross_region_parameter_group_to_use, var.parameter_group_major_version)
   delete_automated_backups        = false
   copy_tags_to_snapshot           = true
   snapshot_identifier             = var.snapshot_identifier != "" ? var.snapshot_identifier : null
