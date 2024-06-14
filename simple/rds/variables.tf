@@ -108,3 +108,8 @@ variable "parameter_group_major_version" {
   description = "The major version of the parameter group. Ex. 14, 15"
   default     = "14"
 }
+variable "use_custom_parameter_group_for_read_replicas" {
+  type        = bool
+  default     = false
+  description = "If true, will use a custom parameter group for read replicas. Used because cross-region read replicas don't inherit the parameter group from the source DB and can't be created with a custom parameter group"
+}
