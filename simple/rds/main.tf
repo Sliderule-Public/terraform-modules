@@ -263,7 +263,7 @@ resource "aws_db_instance" "cross_region_read_replica" {
   instance_class                  = var.reader_instance_type
   kms_key_id                      = var.cross_region_kms_key_arn
   replicate_source_db             = aws_db_instance.new_public.arn
-  parameter_group_name            = var.use_custom_parameter_group_for_read_replicas ? lookup(local.cross_region_parameter_group_to_use, var.parameter_group_major_version) : "sdsdsd"
+  parameter_group_name            = var.use_custom_parameter_group_for_read_replicas ? lookup(local.cross_region_parameter_group_to_use, var.parameter_group_major_version) : null
   delete_automated_backups        = false
   copy_tags_to_snapshot           = true
   snapshot_identifier             = var.snapshot_identifier != "" ? var.snapshot_identifier : null
