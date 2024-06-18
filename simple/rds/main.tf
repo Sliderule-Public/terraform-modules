@@ -212,7 +212,7 @@ resource "aws_db_instance" "new_public" {
   monitoring_interval         = 0
   skip_final_snapshot         = var.skip_final_snapshot
   storage_encrypted           = true
-  final_snapshot_identifier   = var.cluster_name
+  final_snapshot_identifier   = "${var.cluster_name}-final-${replace(timestamp(), ":", "-")}"
   allow_major_version_upgrade = true
   tags                        = var.tags
   lifecycle {
