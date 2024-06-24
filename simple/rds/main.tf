@@ -226,7 +226,6 @@ resource "aws_db_instance" "new_public" {
 resource "aws_db_instance" "read_replica" {
   count                           = var.deploy_read_replica == true ? 1 : 0
   identifier                      = "${local.instance_name}-reader"
-  allocated_storage               = 100
   multi_az                        = true
   publicly_accessible             = var.use_only_private_subnets ? false : true
   vpc_security_group_ids          = [var.security_group]
@@ -242,19 +241,17 @@ resource "aws_db_instance" "read_replica" {
   enabled_cloudwatch_logs_exports = [
     "postgresql",
   ]
-  maintenance_window    = "sun:12:04-sun:12:34"
-  max_allocated_storage = 200
-  monitoring_interval   = 0
-  skip_final_snapshot   = true
-  storage_encrypted     = true
-  tags                  = var.tags
+  maintenance_window  = "sun:12:04-sun:12:34"
+  monitoring_interval = 0
+  skip_final_snapshot = true
+  storage_encrypted   = true
+  tags                = var.tags
 }
 
 resource "aws_db_instance" "cross_region_read_replica" {
   provider                        = aws.cross_region_replication
   count                           = var.deploy_cross_region_read_replica == true ? 1 : 0
   identifier                      = "${local.instance_name}-cross-region-reader"
-  allocated_storage               = 100
   db_subnet_group_name            = var.use_only_private_subnets ? aws_db_subnet_group.default_cross_region[0].name : aws_db_subnet_group.public_cross_region[0].name
   multi_az                        = true
   publicly_accessible             = var.use_only_private_subnets ? false : true
@@ -270,12 +267,11 @@ resource "aws_db_instance" "cross_region_read_replica" {
   enabled_cloudwatch_logs_exports = [
     "postgresql",
   ]
-  maintenance_window    = "sun:12:04-sun:12:34"
-  max_allocated_storage = 200
-  monitoring_interval   = 0
-  skip_final_snapshot   = true
-  storage_encrypted     = true
-  tags                  = var.tags
+  maintenance_window  = "sun:12:04-sun:12:34"
+  monitoring_interval = 0
+  skip_final_snapshot = true
+  storage_encrypted   = true
+  tags                = var.tags
 }
 
 
