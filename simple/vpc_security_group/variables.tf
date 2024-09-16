@@ -50,6 +50,18 @@ variable "sg_ingress_rules" {
   default = []
 }
 
+variable "pl_ingress_rules" {
+  type = list(object({
+    description     = string
+    from_port       = number
+    to_port         = number
+    protocol        = string
+    prefix_list_ids = list(string)
+  }))
+
+  default = []
+}
+
 variable "egress_rules" {
   type = list(object({
     description = string

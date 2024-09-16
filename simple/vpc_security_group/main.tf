@@ -15,6 +15,17 @@ resource "aws_security_group" "main" {
   }
 
   dynamic ingress {
+    for_each = var.pl_ingress_rules
+    content {
+      from_port       = ingress.value["from_port"]
+      protocol        = ingress.value["protocol"]
+      to_port         = ingress.value["to_port"]
+      description     = ingress.value["description"]
+      prefix_list_ids = ingress.value["prefix_list_ids"]
+    }
+  }
+
+  dynamic ingress {
     for_each = var.ipv6_ingress_rules
     content {
       from_port        = ingress.value["from_port"]
